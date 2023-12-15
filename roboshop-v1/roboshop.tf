@@ -79,15 +79,6 @@ resource "aws_instance" "rabbitmq" {
   }
 }
 
-resource "aws_instance" "rabbitmq" {
-  ami           = "ami-03265a0778a880afb"
-  instance_type = "t3.small"
-
-  tags = {
-    Name = "rabbitmq"
-  }
-}
-
 resource "aws_instance" "payment" {
   ami           = "ami-03265a0778a880afb"
   instance_type = "t3.small"
@@ -105,3 +96,4 @@ resource "aws_instance" "dispatch" {
     Name = "dispatch"
   }
 }
+
