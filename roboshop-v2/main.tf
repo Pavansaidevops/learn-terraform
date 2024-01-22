@@ -14,25 +14,42 @@ variable "zone_id" {
   default = "Z09825891XTM08RW95ES0"
 }
 
-resource "aws_instance" "frontend" {
-  ami           = "ami-0f3c7d07486cad139"
-  instance_type = "t3.small"
-  vpc_security_group_ids = [ "sg-01d1ac98da4c430e4" ]
+variable "components" {
+  default = {
+    frontend = { name = "frontend-dev" }
+    mongodb = { name = "mongodb-dev" }
+    catalogue = { name = "catalogue-dev" }
+    redis = { name = "redis-dev" }
+    user = { name = "user-dev" }
+    cart = { name = "cart-dev" }
+    mysql = { name = "mysql-dev" }
+    rabbitmq = { name = "rabbitmq-dev" }
+    payment = { name = "payment-dev" }
+    shipping = { name = "shipping-dev" }
+    dispatch = { name = "dispatch-dev" }
+  }
+}
+resource "aws_instance" "instance" {
+  for_each = var.components
+  ami           = var.ami
+  instance_type = var.instance_type
+  vpc_security_group_ids = [ var.security_groups ]
 
   tags = {
-    Name = "frontend"
+    Name = lookup(each.value, "name", null)
   }
 }
 
-resource "aws_route53_record" "frontend" {
-  zone_id = "Z09825891XTM08RW95ES0"
-  name    = "frontend-dev.pavansai.online"
+resource "aws_route53_record" "record" {
+  for_each = var.components
+  zone_id = var.zone_id
+  name    = "${lookup(each.value, "name", null)}pavansai.online"
   type    = "A"
   ttl     = 30
-  records = [aws_instance.frontend.private_ip]
+  records = [lookup(lookup(aws_instance.instance, each.key, null), "private_ip", null) ]
 }
 
-resource "aws_instance" "mongodb" {
+/*resource "aws_instance" "mongodb" {
   ami           = "ami-0f3c7d07486cad139"
   instance_type = "t3.small"
   vpc_security_group_ids = [ "sg-01d1ac98da4c430e4" ]
@@ -210,6 +227,6 @@ resource "aws_route53_record" "dispatch" {
   type    = "A"
   ttl     = 30
   records = [aws_instance.dispatch.private_ip]
-}
+}*/
 
 
