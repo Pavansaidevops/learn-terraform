@@ -1,6 +1,6 @@
 # Plain Variable
 variable "fruit_name" {
-  default = 'banana'
+  default = "banana"
 }
 
 output "fruit_name" {
