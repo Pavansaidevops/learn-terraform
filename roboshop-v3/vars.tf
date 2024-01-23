@@ -42,11 +42,11 @@ variable "components" {
     }
     payment         = {
       name          = "payment"
-      instance_type = "t3,micro"
+      instance_type = "t3.micro"
     }
     shipping        = {
       name          = "shipping"
-      instance_type = "t3,micro"
+      instance_type = "t3.micro"
     }
     dispatch        = {
       name          = "dispatch"
