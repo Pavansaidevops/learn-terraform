@@ -33,7 +33,7 @@ resource "aws_instance" "instance" {
   for_each = var.components
   ami           = var.ami
   instance_type = var.instance_type
-  vpc_security_group_ids = [ var.security_groups ]
+  vpc_security_group_ids = var.security_groups
 
   tags = {
     Name = lookup(each.value, "name", null)
