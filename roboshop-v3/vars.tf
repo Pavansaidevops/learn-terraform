@@ -36,6 +36,10 @@ variable "components" {
       name          = "mysql"
       instance_type = "t3.micro"
     }
+    shipping        = {
+      name          = "shipping"
+      instance_type = "t3.micro"
+    }
     rabbitmq        = {
       name          = "rabbitmq"
       instance_type = "t3.micro"
@@ -44,10 +48,7 @@ variable "components" {
       name          = "payment"
       instance_type = "t3.micro"
     }
-    shipping        = {
-      name          = "shipping"
-      instance_type = "t3.micro"
-    }
+
     dispatch        = {
       name          = "dispatch"
       instance_type = "t3.micro"
